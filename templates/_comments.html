@@ -1,0 +1,17 @@
+{% macro comments_render(type, model, xsrf_form_html) %}
+<div id="{{ type }}_{{ model.id }}_comments" style="display:none" class="comments">
+  {% for item in model.comments %}
+  <div class="comment">
+    <div class="md_body">{{ item.body|md_body }}</div>
+    <div class="info">{{ item.user|user_name_tag }} • {{ item.created_at|strftime('short') }}</div>
+  </div>
+  {% endfor %}
+  <div class="comment form">
+    <form action="/comment/{{ type }}/{{ model.id }}" onsubmit="return submitComment(this);" method="post">
+      {{ xsrf_form_html() }}
+      <textarea type="text" class="body" name="body"></textarea>
+      <button type="submit">评论</button>
+    </form>
+  </div>
+</div>
+{% endmacro %}

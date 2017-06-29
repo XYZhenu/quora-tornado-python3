@@ -1,0 +1,1 @@
+python3 app.py --port=18888 --mongo_host=127.0.0.1:27017 --logging=error --log_file_prefix=/Users/xyzhenu/Desktop/TestCache/app.log &
