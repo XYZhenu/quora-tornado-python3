@@ -32,7 +32,6 @@ class BaseForm(formencode.Schema):
         if request.method == "POST":
             if content_type.startswith("application/x-www-form-urlencoded"):
                 arguments = parse_qs(request.body, keep_blank_values=1)
-        print(arguments)
         for k, v in arguments.items():
             if len(v) == 1:
                 self._parmas[k.decode(encoding='utf-8')] = v[0].decode(encoding='utf-8')
@@ -46,20 +45,16 @@ class BaseForm(formencode.Schema):
     def validate(self):
         try:
             self._values = self.to_python(self._parmas)
-            print(self._values)
             self._result = True
             self.__after__()
         except formencode.Invalid as error:
             self._values = error.value
-            print("error validate")
-            print(self._values)
             self._form_errors = error.error_dict or {}
             self._result = False
 
         # map values to define form propertys and decode utf8
         for k in self._values.keys():
             commandstring = "self.%s = self._values[\"%s\"]" % (k,k)
-            print(commandstring)
             exec(commandstring)
 
         return self._result
