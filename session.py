@@ -131,12 +131,8 @@ class TornadoSession(Session):
         # get the session object's data and transfer it to this session item
         try:
             plain_session = tornado_session_manager.get(request_handler)
-            print(type(plain_session))
-            print(plain_session)
         except InvalidSessionException:
             plain_session = tornado_session_manager.get()
-            print(type(plain_session))
-            print(plain_session)
 
         for i, j in plain_session.items():
             self[i] = j

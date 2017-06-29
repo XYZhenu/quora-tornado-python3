@@ -181,7 +181,7 @@ class LoginHandler(BaseHandler):
             frm.render("login.html")
             return
 
-        password = utils.md5(frm.password)
+        password = utils.md5(frm.password.encode("utf8"))
         user = User.objects(login=frm.login,
                             password=password).first()
         if not user:
@@ -207,7 +207,7 @@ class RegisterHandler(BaseHandler):
         user = User(name=frm.name,
                     login=frm.login,
                     email=frm.email,
-                    password=utils.md5(frm.password))
+                    password=utils.md5(frm.password.encode("utf8")))
         try:
           user.save()
           self.set_secure_cookie("user_id",str(user.id))
